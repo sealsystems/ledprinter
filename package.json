@@ -19,7 +19,6 @@
   },
   "main": "lib/printerSimulator.js",
   "dependencies": {
-    "pad": "1.0.0",
     "node-blinkt": "sealsystems/node-blinkt#sysfs",
     "processenv": "0.1.0"
   },

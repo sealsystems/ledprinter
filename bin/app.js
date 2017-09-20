@@ -2,7 +2,6 @@
 
 const Blinkt = require('node-blinkt');
 
-const pad = require('pad');
 const processEnv = require('processenv');
 
 const PrinterSimulator = require('../lib/PrinterSimulator');
@@ -10,19 +9,10 @@ const PrinterSimulator = require('../lib/PrinterSimulator');
 const leds = new Blinkt();
 let connections = [];
 
-let documentsReceived = 0, documentsReceivedErrors = 0;
-
-const init = function () {
-  leds.setup();
-  leds.clearAll();
-
-  process.on('SIGINT', shutdown);
-  process.on('SIGTERM', shutdown);
-  console.log('Initialized.');
-};
-
 const shutdown = function () {
+  /* eslint-disable no-console */
   console.log('Turning off lights.');
+  /* eslint-enable no-console */
 
   leds.setAllPixels(0, 0, 0, 0);
   leds.sendUpdate();
@@ -30,10 +20,23 @@ const shutdown = function () {
 
   /* eslint-disable no-process-exit */
   process.nextTick(() => {
+    /* eslint-disable no-console */
     console.log('Terminating process.');
+    /* eslint-enable no-console */
     process.exit(0);
   });
   /* eslint-enable no-process-exit */
+};
+
+const init = function () {
+  leds.setup();
+  leds.clearAll();
+
+  process.on('SIGINT', shutdown);
+  process.on('SIGTERM', shutdown);
+  /* eslint-disable no-console */
+  console.log('Initialized.');
+  /* eslint-enable no-console */
 };
 
 init();
@@ -51,16 +54,17 @@ const color = function (conn) {
       conn.mode = 'remove';
     }
     return [255, 0, 0, (11 - conn.animation) * 0.08];
-  } else {
-    return [255, 255, 0, 0.1];
   }
+  return [255, 255, 0, 0.1];
 };
 
 setInterval(() => {
   leds.setAllPixels(0, 0, 0, 0);
   let i = 7;
+
   connections.forEach((conn) => {
     const col = color(conn);
+
     if (i > -1) {
       leds.setPixel(i--, col[0], col[1], col[2], col[3]);
     }
@@ -82,7 +86,9 @@ const printerSimulator = new PrinterSimulator({
 printerSimulator.on('newconn', (conn) => {
   conn.mode = 'up';
   conn.animation = 0;
+  /* eslint-disable no-console */
   console.log('new connection', conn);
+  /* eslint-enable no-console */
   connections.push(conn);
   connections.push(conn);
   connections.push(conn);
@@ -96,13 +102,20 @@ printerSimulator.on('newconn', (conn) => {
 printerSimulator.on('document', (conn) => {
   conn.mode = 'down';
   conn.animation = 0;
+  /* eslint-disable no-console */
   console.log('document', conn);
-  const found = connections.find((item) => {
+  /* eslint-enable no-console */
+  connections.find((item) => {
     return item.remotePort === conn.remotePort;
   });
+
+  /* eslint-disable no-console */
   console.log('connection finished', conn);
+  /* eslint-enable no-console */
 });
 
 printerSimulator.on('error', (conn) => {
+  /* eslint-disable no-console */
   console.log('connection error', conn);
+  /* eslint-enable no-console */
 });
