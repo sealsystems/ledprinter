@@ -1,4 +1,6 @@
 # ledprinter
+[![Build Status](https://travis-ci.org/sealsystems/ledprinter.svg?branch=master)](https://travis-ci.org/sealsystems/ledprinter)
+[![This image on DockerHub](https://img.shields.io/docker/pulls/sealsystems/ledprinter.svg)](https://hub.docker.com/r/sealsystems/ledprinter/)
 
 The ledprinter is a blinking lightweight printer simulator used in our [tiny-cloud](https://github.com/sealsystems/tiny-cloud).
 
