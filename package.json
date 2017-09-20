@@ -1,0 +1,36 @@
+{
+  "name": "ledprinter",
+  "description": "A blinking printer simulator.",
+  "version": "0.0.1",
+  "author": {
+    "name": "SEAL Systems AG",
+    "email": "opensource@sealsystems.de",
+    "url": "https://www.sealsystems.de"
+  },
+  "license": "MIT",
+  "scripts": {
+    "bot": "bot",
+    "release": "bot release && npm publish",
+    "release-minor": "bot release --type minor && npm publish",
+    "release-major": "bot release --type major && npm publish",
+    "test": "bot test-units",
+    "coverage": "istanbul cover _mocha -- --recursive --ui tdd ",
+    "report": "npm run coverage && if [[ $OSTYPE == darwin* ]]; then open=open; else open=xdg-open; fi && $open coverage/lcov-report/index.html"
+  },
+  "main": "lib/printerSimulator.js",
+  "dependencies": {
+    "pad": "1.0.0",
+    "node-blinkt": "sealsystems/node-blinkt#sysfs",
+    "processenv": "0.1.0"
+  },
+  "devDependencies": {
+    "assertthat": "0.8.0",
+    "eslint-config-seal": "0.0.7",
+    "roboter": "0.14.4",
+    "roboter-server": "0.14.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sealsystems/ledprinter.git"
+  }
+}

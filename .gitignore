@@ -1,0 +1,4 @@
+node_modules/
+tmp/
+qemu-aarch64-static
+npm-debug.log
