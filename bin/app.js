@@ -50,10 +50,10 @@ const color = function (conn) {
     }
     return [0, 255, 0, conn.animation * 0.08];
   } else if (conn.mode === 'down') {
-    if (conn.animation > 10) {
+    if (conn.animation > 100) {
       conn.mode = 'remove';
     }
-    return [255, 0, 0, (11 - conn.animation) * 0.08];
+    return [255, 0, 0, (101 - conn.animation) * 0.008];
   }
   return [255, 255, 0, 0.1];
 };
