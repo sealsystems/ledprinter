@@ -39,12 +39,14 @@ const init = function () {
 };
 
 const server = net.createServer((socket) => {
-  socket.on('end', () => {
+  socket.on('close', () => {
     leds.setAllPixels(0, 0, 0, 0);
+    leds.sendUpdate();
     leds.sendUpdate();
   });
 
   leds.setAllPixels(255, 255, 0, 0.1);
+  leds.sendUpdate();
   leds.sendUpdate();
 });
 
