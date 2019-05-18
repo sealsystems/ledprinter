@@ -5,6 +5,7 @@ const net = require('net');
 const Blinkt = require('node-blinkt');
 const processEnv = require('processenv');
 
+const colors = [];
 const leds = new Blinkt();
 const port = processEnv('PORT') || 9100;
 
@@ -40,27 +41,28 @@ const init = function () {
 
 const server = net.createServer((socket) => {
   /* eslint-disable no-console */
-  socket.on('end', () => {
+  socket.on('close', () => {
     console.log('Close socket');
-    leds.setAllPixels(0, 0, 0, 0);
-    leds.sendUpdate();
-    leds.sendUpdate();
-    socket.end();
+    colors.push([0, 0, 0, 0]);
   });
 
   socket.on('error', (err) => {
     console.log('Error:', err);
   });
 
-  socket.on('data', () => {
-    console.log('Receive data');
-  });
+  socket.on('data', () => {});
 
   console.log('Open socket');
-  leds.setAllPixels(255, 255, 0, 0.1);
-  leds.sendUpdate();
-  leds.sendUpdate();
+  colors.push([255, 255, 0, 0.1]);
 });
 
 init();
 server.listen(port);
+
+setInterval(() => {
+  const color = colors.shift();
+
+  leds.setAllPixels.apply(leds, color);
+  leds.sendUpdate();
+  leds.sendUpdate();
+}, 0.1 * 1000);
