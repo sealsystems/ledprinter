@@ -39,13 +39,24 @@ const init = function () {
 };
 
 const server = net.createServer((socket) => {
+  /* eslint-disable no-console */
   socket.on('end', () => {
+    console.log('Close socket');
     leds.setAllPixels(0, 0, 0, 0);
     leds.sendUpdate();
     leds.sendUpdate();
     socket.end();
   });
 
+  socket.on('error', (err) => {
+    console.log('Error:', err);
+  });
+
+  socket.on('data', () => {
+    console.log('Receive data');
+  });
+
+  console.log('Open socket');
   leds.setAllPixels(255, 255, 0, 0.1);
   leds.sendUpdate();
   leds.sendUpdate();
